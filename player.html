@@ -9,13 +9,17 @@
   <title>Simple Audio Player</title>
   <!-- Include the WaveSurfer.js library from the CDN -->
   <script src="https://unpkg.com/wavesurfer.js@3.3.3"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 <body>
   <!-- Create a div element to display the waveform -->
   <div id="waveform"></div>
   <div>
     <!-- Create a Play/Pause button -->
-    <button id="playPause">Play/Pause</button>
+    <button id="playPause">
+      <i class="fas fa-play"></i>
+      <i class="fas fa-pause" style="display: none;"></i>
+    </button>    
     <!-- Create a file input element to allow users to upload an MP3 file -->
     <input type="file" id="audioFile" accept="audio/mp3" />
   </div>
@@ -39,7 +43,9 @@
       playPauseButton.addEventListener("click", () => {
         // Toggle between play and pause states
         waveSurfer.playPause();
-      });
+        playPauseButton.querySelector(".fa-play").classList.toggle("d-none");
+        playPauseButton.querySelector(".fa-pause").classList.toggle("d-none");
+      }); 
 
       // Add a change event listener to the audio file input element
       audioFileInput.addEventListener("change", (e) => {
