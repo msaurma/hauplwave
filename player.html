@@ -1,43 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Set the character encoding for the document -->
   <meta charset="UTF-8">
+  <!-- Set the viewport settings for responsive design -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Set the title for the document -->
   <title>Simple Audio Player</title>
+  <!-- Include the WaveSurfer.js library from the CDN -->
   <script src="https://unpkg.com/wavesurfer.js@3.3.3"></script>
 </head>
 <body>
+  <!-- Create a div element to display the waveform -->
   <div id="waveform"></div>
   <div>
+    <!-- Create a Play/Pause button -->
     <button id="playPause">Play/Pause</button>
+    <!-- Create a file input element to allow users to upload an MP3 file -->
     <input type="file" id="audioFile" accept="audio/mp3" />
   </div>
 
   <script>
+    // Add an event listener that waits for the content to load before executing the function
     document.addEventListener("DOMContentLoaded", function () {
+      // Get the Play/Pause button and audio file input elements by their IDs
       const playPauseButton = document.getElementById("playPause");
       const audioFileInput = document.getElementById("audioFile");
 
+      // Initialize WaveSurfer.js with the specified settings
       const waveSurfer = WaveSurfer.create({
-        container: "#waveform",
-        waveColor: "violet",
-        progressColor: "purple",
-        backend: "MediaElement",
+        container: "#waveform",  // Specify the container for the waveform (the div with id "waveform")
+        waveColor: "violet",     // Set the color of the waveform
+        progressColor: "purple", // Set the color of the progress bar
+        backend: "MediaElement", // Use the MediaElement backend for better compatibility
       });
 
+      // Add a click event listener to the Play/Pause button
       playPauseButton.addEventListener("click", () => {
+        // Toggle between play and pause states
         waveSurfer.playPause();
       });
 
+      // Add a change event listener to the audio file input element
       audioFileInput.addEventListener("change", (e) => {
+        // Get the selected file
         const file = e.target.files[0];
         if (file) {
+          // Create an object URL for the selected file
           const objectURL = URL.createObjectURL(file);
+          // Load the file into WaveSurfer.js
           waveSurfer.load(objectURL);
         }
       });
 
+      // Add an event listener to WaveSurfer.js that triggers when the audio is ready to be played
       waveSurfer.on("ready", () => {
+        // Revoke the object URL to free up memory
         URL.revokeObjectURL(waveSurfer.backend.media.src);
       });
     });
