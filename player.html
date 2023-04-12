@@ -3,65 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Audio Player</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/8znGp+5J82Z10L1Q2tokE5o6tvzD/7FFt980Fz" crossorigin="anonymous">
+  <title>Simple Audio Player</title>
   <script src="https://unpkg.com/wavesurfer.js@3.3.3"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
-    .audio-player {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    #waveform {
-      height: 100px;
-    }
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .controls button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-right: 20px;
-      outline: none;
-    }
-    .controls .volume-slider {
-      width: 100px;
-      margin-right: 20px;
-    }
-  </style>
 </head>
 <body>
-  <div class="audio-player">
-    <div id="waveform"></div>
-    <div class="controls">
-      <button id="playPause" title="Play/Pause"><i class="fas fa-play"></i></button>
-      <button id="mute" title="Mute/Unmute"><i class="fas fa-volume-up"></i></button>
-      <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1" title="Volume">
-      <input type="file" id="audioFile" accept="audio/mp3" style="display:none" />
-      <button id="upload" title="Upload"><i class="fas fa-upload"></i></button>
-    </div>
+  <div id="waveform"></div>
+  <div>
+    <button id="playPause">Play/Pause</button>
+    <input type="file" id="audioFile" accept="audio/mp3" />
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const playPauseButton = document.getElementById("playPause");
-      const muteButton = document.getElementById("mute");
-      const volumeSlider = document.getElementById("volumeSlider");
       const audioFileInput = document.getElementById("audioFile");
-      const uploadButton = document.getElementById("upload");
 
       const waveSurfer = WaveSurfer.create({
         container: "#waveform",
@@ -72,18 +27,6 @@
 
       playPauseButton.addEventListener("click", () => {
         waveSurfer.playPause();
-        playPauseButton.querySelector("i").classList.toggle("fa-play");
-        playPauseButton.querySelector("i").classList.toggle("fa-pause");
-      });
-
-      muteButton.addEventListener("click", () => {
-        waveSurfer.toggleMute();
-        muteButton.querySelector("i").classList.toggle("fa-volume-up");
-        muteButton.querySelector("i").classList.toggle("fa-volume-mute");
-      });
-
-      volumeSlider.addEventListener("input", () => {
-        waveSurfer.setVolume(volumeSlider.value);
       });
 
       audioFileInput.addEventListener("change", (e) => {
@@ -94,14 +37,10 @@
         }
       });
 
-      uploadButton.addEventListener("click", () => {
-        audioFileInput.click();
-      });
-
       waveSurfer.on("ready", () => {
         URL.revokeObjectURL(waveSurfer.backend.media.src);
       });
     });
   </script>
 </body>
-</html>  
+</html>
