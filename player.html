@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Audio Player</title>
+    <script> src="https://unpkg.com/wavesurfer.js"</script>
+</head>
+<body>
+    <div id="waveform"></div>
+    <div>
+        <button id="playPause">Play/Pause</button>
+        <input type="file" id="audioFile" accept="audio/mp3" />
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const playPauseButton = document.getElementById("playPause");
+          const audioFileInput = document.getElementById("audioFile");
+    
+          const waveSurfer = WaveSurfer.create({
+            container: "#waveform",
+            waveColor: "violet",
+            progressColor: "purple",
+            backend: "MediaElement",
+          });
+    
+          playPauseButton.addEventListener("click", () => {
+            waveSurfer.playPause();
+          });
+    
+          audioFileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const objectURL = URL.createObjectURL(file);
+              waveSurfer.load(objectURL);
+            }
+          });
+    
+          waveSurfer.on("ready", () => {
+            URL.revokeObjectURL(waveSurfer.backend.media.src);
+          });
+        });
+      var a = 5;
+      var b = 6;
+      var c = 7;
+
+      var result = a + b + c;
+</body>
+</html>
